@@ -1,18 +1,19 @@
 var express = require('express');
+var http = require('http');
 var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var path = require('path');
+//var server = require('http').Server(app);
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
 
-app.listen(8888);
-
-app.use(express.static(path.join(__dirname, 'res')));
+app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res)
 {
-	res.sendFile(path.join(__dirname, '.', 'index.html'));
+	res.sendFile(__dirname + '/public/index.html');
 });
 
 io.on('connection', function (socket)
 {
 	console.log('Un client est connecté !');
 });
+
+server.listen(8888);
