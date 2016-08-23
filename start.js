@@ -1,19 +1,18 @@
-var http = require('http');
-var fs = require('fs');
+var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var path = require('path');
 
-var server = http.createServer(function(req, res)
+app.listen(8888);
+
+app.use(express.static(path.join(__dirname, 'res')));
+app.get('/', function(req, res)
 {
-    fs.readFile('./index.html', 'utf-8', function(error, content)
-	{
-        res.writeHead(200, {"Content-Type": "text/html"});
-        res.end(content);
-    });
+	res.sendFile(path.join(__dirname, '.', 'index.html'));
 });
 
-var io = require('socket.io').listen(server);
-io.sockets.on('connection', function (socket)
+io.on('connection', function (socket)
 {
 	console.log('Un client est connecté !');
 });
-
-server.listen(8888);
