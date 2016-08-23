@@ -1,31 +1,19 @@
-var express = require('express');
-var app = express();
+var http = require('http');
 var fs = require('fs');
 
-app.get('/', function(req, res)
+var server = http.createServer(function(req, res)
 {
-	fs.readFile('./livecode/live.html', 'utf8', function(err, data)
+    fs.readFile('./index.html', 'utf-8', function(error, content)
 	{
-		if (err)
-			return (console.log(err));
-		
-		res.render('index.ejs', {data: data});
-	});
+        res.writeHead(200, {"Content-Type": "text/html"});
+        res.end(content);
+    });
 });
 
-app.listen(8888);
-
-/*
-fs.writeFile('./livecode/live.html', data, function(err, data)
+var io = require('socket.io').listen(server);
+io.sockets.on('connection', function (socket)
 {
-	if (err)
-		return (console.log(err));
-	
-	console.log("File saved !");
+	console.log('Un client est connecté !');
 });
-*/
-/*
-$(function() {
-    alert( $('textarea').val() );
-});
-*/
+
+server.listen(8888);
