@@ -26,7 +26,7 @@
     <div class="row">
       <div style="height:800px;background-color:#F09400; text-align:center;" id="project-folder" class="col-md-3">Project Tree</div>
       <div style="height:800px;" id="text-container" class="col-md-9">
-        <textarea style="width:100%; height:100%; outline: none; border:1px solid #F09400; border-left: 4px solid #F09400;">
+        <textarea name="textarea" oninput="textareainput();" style="width:100%; height:100%; outline: none; border:1px solid #F09400; border-left: 4px solid #F09400;">
         </textarea>
       </div>
     </div>
@@ -35,6 +35,18 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		var socket = io.connect('http://localhost:8888/');
+		//socket.emit('log', 'Connected');
+		
+		function textareainput()
+		{
+			socket.emit('data', document.getElementsByName("textarea")[0].value);
+		}
+		
+		socket.on('data', function (message)
+		{
+			console.log(message);
+			document.getElementsByName("textarea")[0].value = message;
+		});
 	</script>
 
   <!-- Modals -->

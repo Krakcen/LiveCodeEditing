@@ -13,6 +13,11 @@ app.get('/', function(req, res)
 io.on('connection', function (socket)
 {
 	console.log('Un client est connecté !');
+	
+	socket.on('data', function (data)
+	{
+		io.sockets.emit('data', data);
+	});
 });
 
 server.listen(8888);
