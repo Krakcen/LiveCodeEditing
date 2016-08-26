@@ -15,7 +15,7 @@ io.on('connection', function (socket)
 {
 	console.log('Un client est connecté !');
 	
-	io.sockets.emit('data', dataOnConnect);
+	socket.emit('data', dataOnConnect);
 	
 	socket.on('data', function (data)
 	{
