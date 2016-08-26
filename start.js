@@ -10,6 +10,11 @@ app.get('/', function(req, res)
 {
 	res.sendFile(__dirname + '/public/index.html');
 });
+/*
+.get('/:id', function(req, res)
+{
+	res.sendFile(__dirname + '/public/room.html?id=' + req.params.id);
+});*/
 
 io.on('connection', function (socket)
 {

@@ -40,14 +40,27 @@
       <div style="height:800px;" id="text-container" class="col-md-9">
 
         <!-- Test -->
-        <div id="editor">function marceauTuPues() {
-          var hugo = "Boss";
-        }</div>
+        <div id="editor" oninput="textareainput();"></div>
         <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/socket.io/socket.io.js"></script>
         <script>
+		var socket = io();
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/merbivore_soft");
         editor.getSession().setMode("ace/mode/javascript");
+		editor.$blockScrolling = Infinity;
+		
+		function textareainput()
+		{
+			socket.emit('data', editor.getValue());
+		}
+
+		socket.on('data', function (message)
+		{
+			console.log(message);
+			//editor.setValue(message);
+			editor.setValue(message, 1);
+		});
         </script>
 
 
@@ -55,20 +68,11 @@
     </div>
   </div>
 
-  <script src="/socket.io/socket.io.js"></script>
+  
   <script>
-  var socket = io();
+  
 
-  function textareainput()
-  {
-    socket.emit('data', document.getElementsByName("textarea")[0].value);
-  }
 
-  socket.on('data', function (message)
-  {
-    console.log(message);
-    document.getElementsByName("textarea")[0].value = message;
-  });
 </script>
 
   <!-- Modals -->
