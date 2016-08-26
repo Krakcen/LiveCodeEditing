@@ -40,26 +40,29 @@
       <div style="height:800px;" id="text-container" class="col-md-9">
 
         <!-- Test -->
-        <div id="editor" oninput="textareainput();"></div>
+        <div id="editor"></div>
         <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/socket.io/socket.io.js"></script>
         <script>
 		var socket = io();
         var editor = ace.edit("editor");
+		var pos = editor.selection.getCursor();
+		var input = document.getElementById('editor');
         editor.setTheme("ace/theme/merbivore_soft");
         editor.getSession().setMode("ace/mode/javascript");
 		editor.$blockScrolling = Infinity;
 		
-		function textareainput()
+		$('#editor').on('keyup', function(e)
 		{
+			pos = editor.selection.getCursor();
+			pos.row += 1;
 			socket.emit('data', editor.getValue());
-		}
-
+		});
+		
 		socket.on('data', function (message)
 		{
-			console.log(message);
-			//editor.setValue(message);
-			editor.setValue(message, 1);
+			editor.setValue(message, 0);
+			editor.gotoLine(pos.row, pos.column);
 		});
         </script>
 
