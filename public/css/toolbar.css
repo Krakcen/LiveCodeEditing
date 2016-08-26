@@ -1,0 +1,20 @@
+@font-face {
+  font-family: toolbarFont;
+  src: url(../res/fonts/Prototype.ttf);
+}
+
+#project-folder {
+  font-family: toolbarFont;
+  height:800px;
+  background-color:grey;
+  padding-top: 10px;
+}
+
+.toolbar-title {
+  font-size: 30px;
+}
+
+.toolbar-desc {
+  font-size: 24px;
+  padding-bottom: 20px;
+}

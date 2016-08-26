@@ -6,9 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="\css\toolbar.css">
   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://use.fontawesome.com/52a6cc2eb5.js"></script>
   <script src="js/script.js"></script>
   <script src="js\toolbar.js"></script>
   <title>Live Code Editing</title>
@@ -36,77 +39,83 @@
 
   <div class="main-content container-fluid">
     <div class="row">
-      <div style="height:800px;background-color:grey; text-align:center;" id="project-folder" class="col-md-3">Project Tree</div>
-      <div style="height:800px;" id="text-container" class="col-md-9">
-
-        <!-- Test -->
-        <div id="editor"></div>
-        <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-		<script src="/socket.io/socket.io.js"></script>
-        <script>
-		var socket = io();
-        var editor = ace.edit("editor");
-		var pos = editor.selection.getCursor();
-		var input = document.getElementById('editor');
-        editor.setTheme("ace/theme/merbivore_soft");
-        editor.getSession().setMode("ace/mode/javascript");
-		editor.$blockScrolling = Infinity;
-		
-		$('#editor').on('keyup', function(e)
-		{
-			pos = editor.selection.getCursor();
-			pos.row += 1;
-			socket.emit('data', editor.getValue());
-		});
-		
-		socket.on('data', function (message)
-		{
-			editor.setValue(message, 0);
-			editor.gotoLine(pos.row, pos.column);
-		});
-        </script>
-
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Modals -->
-  <div id="aboutModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">About</h4>
+      <div id="project-folder" class="col-md-3">
+        <div class="container-fluid">
+          <p class="toolbar-title">Welcome !</p><br/><p class="toolbar-desc">please select or create a room.<p>
+            <div id="generated-room-table"></div>
+          </div>
         </div>
-        <div class="modal-body">
-          <p>Live Code Editing is a tool for editing files online in real time with coworkers.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+        <div style="height:800px;" id="text-container" class="col-md-9">
+
+          <!-- Test -->
+          <div id="editor"></div>
+          <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+          <script src="/socket.io/socket.io.js"></script>
+          <script>
+          var socket = io();
+          var editor = ace.edit("editor");
+          var pos = editor.selection.getCursor();
+          var input = document.getElementById('editor');
+          editor.setTheme("ace/theme/merbivore_soft");
+          editor.getSession().setMode("ace/mode/javascript");
+          editor.$blockScrolling = Infinity;
+
+          $('#editor').on('keyup', function(e)
+          {
+            pos = editor.selection.getCursor();
+            pos.row += 1;
+            socket.emit('data', editor.getValue());
+          });
+
+          socket.on('data', function (message)
+          {
+            editor.setValue(message, 0);
+            editor.gotoLine(pos.row, pos.column);
+          });
+          </script>
+
+
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="contactModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Contact</h4>
-        </div>
-        <div class="modal-body">
-          <p>hugo.villevieille@epitech.eu</br>marceau.bernelin@epitech.eu</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <!-- Modals -->
+    <div id="aboutModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">About</h4>
+          </div>
+          <div class="modal-body">
+            <p>Live Code Editing is a tool for editing files online in real time with coworkers.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-</body>
-<html>
+    <div id="contactModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Contact</h4>
+          </div>
+          <div class="modal-body">
+            <p>hugo.villevieille@epitech.eu</br>marceau.bernelin@epitech.eu</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <html>
